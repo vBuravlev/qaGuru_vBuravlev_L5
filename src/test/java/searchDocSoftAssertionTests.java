@@ -11,7 +11,7 @@ public class searchDocSoftAssertionTests {
     @Test
     void successTest() {
         open("https://github.com/selenide/selenide");
-        $("span[data-content='Wiki']").should(visible).click(); // проверка ссылки Wiki на странице доки Selenide
+        $("ul span[data-content='Wiki']").should(visible).click(); // проверка ссылки Wiki на странице доки Selenide
         $x("//a[@class='internal present' and @href='/selenide/selenide/wiki/SoftAssertions']")
                 .shouldHave(text("Soft Assertions")).click(); //наличие ссылки SoftAssertion на страницу
         $x("//h3[text()='Example:']").shouldBe(visible);  // наличие фразы "Example" на странице SoftAssertion
@@ -24,8 +24,11 @@ public class searchDocSoftAssertionTests {
                 keyJunitNumber = i;
             }
         }
-        $("ol[start='" + keyJunitNumber + "'] + div").$("pre").$("span.pl-smi")
-                .shouldHave(text("SoftAssertsExtension"), text("@Test")); // проверка блока с кодом на наличие специфических фраз
+        // проверка блока с кодом на наличие специфических фраз
+        $$("ol[start='" + keyJunitNumber + "'] + div pre span").findBy(text("SoftAssertsExtension"))
+                .shouldBe(visible);
+        $$("ol[start='" + keyJunitNumber + "'] + div pre span").findBy(text("@Test"))
+                .shouldBe(visible);
 
 
     }
