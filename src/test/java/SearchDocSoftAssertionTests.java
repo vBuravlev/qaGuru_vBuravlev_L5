@@ -2,6 +2,7 @@ import com.codeborne.selenide.ElementsCollection;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class SearchDocSoftAssertionTests {
@@ -11,10 +12,9 @@ public class SearchDocSoftAssertionTests {
     @Test
     void successTest() {
         open("https://github.com/selenide/selenide");
-        $("ul span[data-content='Wiki']").should(visible).click(); // проверка ссылки Wiki на странице доки Selenide
-        $x("//a[@class='internal present' and @href='/selenide/selenide/wiki/SoftAssertions']")
-                .shouldHave(text("Soft Assertions")).click(); //наличие ссылки SoftAssertion на страницу
-        $x("//h3[text()='Example:']").shouldBe(visible);  // наличие фразы "Example" на странице SoftAssertion
+        $("ul.UnderlineNav-body").$(byText("Wiki")).click(); // проверка ссылки Wiki на странице доки Selenide
+        $("a.internal.present[href*='SoftAssertions']").shouldHave(text("Soft assertions")).click(); //наличие ссылки SoftAssertion на страницу
+        $("h3 a#user-content-example").parent().shouldHave(text("Example:"));  // наличие фразы "Example" на странице SoftAssertion
 
         ElementsCollection lines = $$("div.markdown-body ol"); //Поиск номера примера для JUnit5
         for (int i = 1; i < lines.size(); i++) {
